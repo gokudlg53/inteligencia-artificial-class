@@ -28,36 +28,48 @@ def tableron_act():
     for fila in tablero:
         print(" ".join(fila))
     print()
-    
-def jugador1(op, id_ficha):
-    clave = f"X{id_ficha}"
-    if op in MOVIMIENTOS1 and clave in FICHA_X:
-        i, j = FICHA_X[clave]
-        di, dj = MOVIMIENTOS1[op]
+def ganador(punto,jugador):
+    if punto == 3:
+        print(f"El jugador {jugador} ha ganado el juego!")
+        exit()
+def jugador(op, id_ficha,turno):
+    #diccionario de fichas y movimientos
+    puntaje=0
+    ficha = FICHA_X if turno == 1 else FICHA_O
+    movimientos = MOVIMIENTOS1 if turno == 1 else MOVIMIENTOS2
+    clave = f"X{id_ficha}" if turno == 1 else f"O{id_ficha}"
+    #se realiza el movimiento si es válido
+    if op in movimientos and clave in ficha:
+        i, j = ficha[clave]
+        di, dj = movimientos[op]
         nueva_i, nueva_j = i + di, j + dj
-        FICHA_X[clave] = (nueva_i, nueva_j)
-def jugador2(op, id_ficha):
-    clave = f"O{id_ficha}"
-    if op in MOVIMIENTOS2 and clave in FICHA_O:
-        i, j = FICHA_O[clave]
-        di, dj = MOVIMIENTOS2[op]
-        nueva_i, nueva_j = i + di, j + dj
-        FICHA_O[clave] = (nueva_i, nueva_j)
+        #elimina la ficha si se sale del tablero 
+        if turno == 1 and not (0 < nueva_i <= 3):
+            del ficha[clave]
+            puntaje =1
+            turno = 1 if turno == 2 else 2
+        elif turno == 2 and not (0 < nueva_j <= 3):
+            del ficha[clave]
+            puntaje =1
+            turno = 1 if turno == 2 else 2
+        elif (nueva_i, nueva_j) in FICHA_X.values() or (nueva_i, nueva_j) in FICHA_O.values():
+            print("Movimiento inválido: Casilla ocupada por otra pieza.")
+        #en caso de ser valido el movimiento se realiza y se cambia de turno
+        else:
+            ficha[clave] = (nueva_i, nueva_j)
+            turno = 1 if turno == 2 else 2
+    return(turno,puntaje)
 def JUEGO():
-    jugada = 0
-    while jugada <= 2:
+    turno = 1
+    puntos = 0
+    while True:
         tableron_act()
+        print(f"Turno del jugador {turno}")
         print("Que ficha quieres mover 1,2 o 3?")
-        id_ficha = input("Ingresa un número: ")
+        id_ficha = input("Ingresa un numero: ")
         print("elige ficha izquierda(1), arriba(2) o derecha(3)")
-        op = int(input("Ingresa un número: "))
-        jugador1(op, id_ficha)
+        op = int(input("Ingresa un numero: "))
+        turno, puntaje = jugador(op, id_ficha, turno)
         tableron_act()
-        print("Que ficha quieres mover 1,2 o 3?")
-        id_ficha = input("Ingresa un número: ")
-        print("elige ficha izquierda(1), arriba(2) o derecha(3)")
-        op = int(input("Ingresa un número: "))
-        jugador2(op, id_ficha)
-        tableron_act()
-        jugada += 1
+        ganador(puntaje, turno)
 JUEGO()
