@@ -101,7 +101,7 @@ def JUEGO():
         tableron_act(n)
         win1, win2 = ganador(puntaje, turno,win1,win2,n)
 limpiar_pantalla()
-print("Bienvenido al juego de Poke")
+print("Bienvenido al juego de DODGEM")
 print("El objetivo del juego es mover tus fichas hasta el otro lado del tablero")
 print("precione enter para comenzar")
 input()
