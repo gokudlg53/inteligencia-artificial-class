@@ -40,7 +40,7 @@ def elec_tablero():
             n = int(input("Ingrese el tamano del tablero(ejemplo 4,6,8): "))
             if n > 0 and n % 2 == 0 and n >= 4 and n <= 12:
                 return n
-            print("Error: El número debe ser par y mayor a 0.")
+            print("Error: El número debe ser par y mayor a 0 o menor que 12.")
         except ValueError:
             print("Error: Ingrese un número entero válido.")
     return n
