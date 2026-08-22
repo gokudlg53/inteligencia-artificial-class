@@ -1,6 +1,8 @@
 import os
 # indica posiciones de las fichas
 n = 4
+fi1 = "X"
+fi2 = "O"
 def Pos_ficha(N):
     FICHAS_O = {}
     FICHAS_X = {}
@@ -30,6 +32,16 @@ def tableron_act(N):
     for fila in tablero:
         print(" ".join(fila))
     print()
+def elec_tablero():
+    while True:
+        try:
+            n = int(input("Ingrese el tamano del tablero(ejemplo 4,6,8): "))
+            if n > 0 and n % 2 == 0 and n >= 4 and n <= 12:
+                return n
+            print("Error: El número debe ser par y mayor a 0.")
+        except ValueError:
+            print("Error: Ingrese un número entero válido.")
+    return n
 # revisa si un jugador ha ganado el juego
 def ganador(punto,jugador,punto1,punto2,n):
             # turno representa el jugador que ha ganado el punto, win representa si se ha ganado un punto
@@ -69,12 +81,8 @@ def jugador(op, id_ficha,turno,N):
             del ficha[clave]
             puntaje =1
             turno = 1 if turno == 2 else 2
-        elif turno == 1 and not (0 <= nueva_j <= N-1):
-            print("Movimiento inválido, la ficha no puede moverse en esa dirección.")
-        elif turno == 2 and not (0 <= nueva_i <= N-1):
-            print("Movimiento inválido, la ficha no puede moverse en esa dirección.")
-        elif (nueva_i, nueva_j) in FICHAS_X.values() or (nueva_i, nueva_j) in FICHAS_O.values():
-            print("Movimiento inválido, la casilla está ocupada.")
+        elif turno == 1 and not (0 <= nueva_j <= N-1) or turno == 2 and not (0 <= nueva_i <= N-1) or (nueva_i, nueva_j) in FICHAS_X.values() or (nueva_i, nueva_j) in FICHAS_O.values():
+            print("Movimiento inválido")
         else:
             ficha[clave] = (nueva_i, nueva_j)
             turno = 1 if turno == 2 else 2
@@ -96,14 +104,6 @@ def JUEGO():
         turno, puntaje = jugador(op, id_ficha, turno, n)
         tableron_act(n)
         win1, win2 = ganador(puntaje, turno,win1,win2,n)
-while True:
-    try:
-        n = int(input("Ingrese el tamano del tablero(ejemplo 4,6,8): "))
-        if n > 0 and n % 2 == 0 and n >= 4 and n <= 12:
-            break
-        print("Error: El número debe ser par y mayor a 0.")
-    except ValueError:
-        print("Error: Ingrese un número entero válido.")
-    os.system("cls" if os.name == "nt" else "clear")
+n = elec_tablero()
 FICHAS_O, FICHAS_X = Pos_ficha(n)
 JUEGO()
