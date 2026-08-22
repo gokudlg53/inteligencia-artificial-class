@@ -38,7 +38,7 @@ def tableron_act(N):
 def elec_tablero():
     print("Bienvenido al juego de DODGEM")
     print("El objetivo del juego es mover tus fichas hasta el otro lado del tablero")
-    print("precione enter para comenzar")
+    print("presione enter para comenzar")
     input()
     limpiar_pantalla()
     while True:
