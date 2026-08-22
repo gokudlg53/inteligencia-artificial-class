@@ -1,3 +1,4 @@
+# indica posiciones de las fichas
 FICHA_O = {
     "O1": (0, 0),
     "O2": (1, 0),
@@ -8,6 +9,7 @@ FICHA_X = {
     "X2": (3, 2),
     "X3": (3, 3)
 }
+# indica los movimientos posibles para cada jugador
 MOVIMIENTOS1 = {
     1: (0, -1),
     2: (-1, 0),
@@ -18,6 +20,7 @@ MOVIMIENTOS2 = {
     2: (0, 1),
     3: (1, 0)
 }
+# muestra el tablero actualizado
 def tableron_act():
     tablero = [["." for _ in range(4)] for _ in range(4)]
     for pos in FICHA_O.values():
@@ -30,6 +33,7 @@ def tableron_act():
     print()
 # revisa si un jugador ha ganado el juego
 def ganador(punto,jugador,punto1,punto2):
+            # turno representa el jugador que ha ganado el punto, win representa si se ha ganado un punto
             turno = jugador if jugador == 2 else 1
             turno = 1 if turno == 2 else 2
             win = punto if punto == 1 else 0
@@ -42,8 +46,6 @@ def ganador(punto,jugador,punto1,punto2):
             elif punto1 == 3 or punto2 == 3:
                 print("Jugador", turno, "ha ganado el juego!")
                 exit()
-            elif win == 0:
-                print("es turno de el jugador", turno)
             return punto1, punto2
 # realiza el movimiento del jugador y actualiza el turno
 def jugador(op, id_ficha,turno):
@@ -51,13 +53,14 @@ def jugador(op, id_ficha,turno):
     puntaje=0
     ficha = FICHA_X if turno == 1 else FICHA_O
     movimientos = MOVIMIENTOS1 if turno == 1 else MOVIMIENTOS2
+    # esto indica la clave de la ficha que se va a mover según el turno y el id de la ficha
     clave = f"X{id_ficha}" if turno == 1 else f"O{id_ficha}"
     #se realiza el movimiento si es válido
     if op in movimientos and clave in ficha:
         i, j = ficha[clave]
         di, dj = movimientos[op]
         nueva_i, nueva_j = i + di, j + dj
-        #elimina la ficha si se sale del tablero 
+        # muestra las restricciones de movimiento y actualiza la posición de la ficha si es válido
         if turno == 1 and not (0 <= nueva_i <= 3):
             del ficha[clave]
             puntaje =1
@@ -76,10 +79,13 @@ def jugador(op, id_ficha,turno):
             ficha[clave] = (nueva_i, nueva_j)
             turno = 1 if turno == 2 else 2
     return(turno,puntaje)
+# inicia el juego y controla el flujo del mismo
 def JUEGO():
+    #valores iniciales de turno y puntajes
     turno = 1
-    win1, win2 = 3, 0
+    win1, win2 = 0, 0
     while True:
+        print("es turno de el jugador", turno)
         print("Que ficha quieres mover 1,2 o 3?")
         id_ficha = input("Ingresa un numero: ")
         print("elige ficha izquierda(1), arriba(2) o derecha(3)")
