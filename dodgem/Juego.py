@@ -3,6 +3,8 @@ import os
 n = 4
 fi1 = "X"
 fi2 = "O"
+def limpiar_pantalla():
+    os.system("cls" if os.name == "nt" else "clear")
 def Pos_ficha(N):
     FICHAS_O = {}
     FICHAS_X = {}
@@ -51,11 +53,9 @@ def ganador(punto,jugador,punto1,punto2,n):
             win = punto if punto == 1 else 0
             if turno == 1 and not win == 0:
                 punto1 += win
-                print(f"Jugador 1 ha ganado un punto. Puntos totales: {punto1}")
             elif turno == 2 and not win == 0:
                 punto2 += win
-                print(f"Jugador 2 ha ganado un punto. Puntos totales: {punto2}")
-            elif punto1 == n or punto2 == n:
+            if punto1 == n or punto2 == n:
                 print("Jugador", turno, "ha ganado el juego!")
                 exit()
             return punto1, punto2
@@ -89,7 +89,7 @@ def JUEGO():
     turno = 1
     win1, win2 = 0, 0
     while True:
-        os.system("cls" if os.name == "nt" else "clear")
+        limpiar_pantalla()
         tableron_act(n)
         print("es turno de el jugador", turno)
         print("X:", win1, "O:", win2)
@@ -100,6 +100,12 @@ def JUEGO():
         turno, puntaje = jugador(op, id_ficha, turno, n)
         tableron_act(n)
         win1, win2 = ganador(puntaje, turno,win1,win2,n)
+limpiar_pantalla()
+print("Bienvenido al juego de Poke")
+print("El objetivo del juego es mover tus fichas hasta el otro lado del tablero")
+print("precione enter para comenzar")
+input()
+limpiar_pantalla()
 n = elec_tablero()
 FICHAS_O, FICHAS_X = Pos_ficha(n)
 JUEGO()
