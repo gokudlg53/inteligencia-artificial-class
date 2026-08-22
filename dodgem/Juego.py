@@ -3,6 +3,7 @@ import os
 n = 4
 fi1 = "X"
 fi2 = "O"
+#como el nombre indica limpia el tablero
 def limpiar_pantalla():
     os.system("cls" if os.name == "nt" else "clear")
 def Pos_ficha(N):
