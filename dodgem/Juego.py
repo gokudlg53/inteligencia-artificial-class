@@ -35,6 +35,11 @@ def tableron_act(N):
         print(" ".join(fila))
     print()
 def elec_tablero():
+    print("Bienvenido al juego de DODGEM")
+    print("El objetivo del juego es mover tus fichas hasta el otro lado del tablero")
+    print("precione enter para comenzar")
+    input()
+    limpiar_pantalla()
     while True:
         try:
             n = int(input("Ingrese el tamano del tablero(ejemplo 4,6,8): "))
@@ -47,10 +52,13 @@ def elec_tablero():
 # revisa si un jugador ha ganado el juego
 def ganador(punto,jugador,punto1,punto2,n):
             # turno representa el jugador que ha ganado el punto, win representa si se ha ganado un punto
+            #este es un ajuste para que las fichas coincida con el puntaje max
             n-=1
+            #diccionario de fichas y movimientos
             turno = jugador if jugador == 2 else 1
             turno = 1 if turno == 2 else 2
             win = punto if punto == 1 else 0
+            #restricciones de puntaje maximo y actualizacion de puntajes
             if turno == 1 and not win == 0:
                 punto1 += win
             elif turno == 2 and not win == 0:
@@ -77,8 +85,10 @@ def jugador(op, id_ficha,turno,N):
             del ficha[clave]
             puntaje =1
             turno = 1 if turno == 2 else 2
+            #restricciones de movimientos en caso de no haber movimiento valido
         elif turno == 1 and not (0 <= nueva_j <= N-1) or turno == 2 and not (0 <= nueva_i <= N-1) or (nueva_i, nueva_j) in FICHAS_X.values() or (nueva_i, nueva_j) in FICHAS_O.values():
             print("Movimiento inválido")
+            input("Presiona Enter para continuar...")
         else:
             ficha[clave] = (nueva_i, nueva_j)
             turno = 1 if turno == 2 else 2
@@ -100,11 +110,6 @@ def JUEGO():
         turno, puntaje = jugador(op, id_ficha, turno, n)
         tableron_act(n)
         win1, win2 = ganador(puntaje, turno,win1,win2,n)
-limpiar_pantalla()
-print("Bienvenido al juego de DODGEM")
-print("El objetivo del juego es mover tus fichas hasta el otro lado del tablero")
-print("precione enter para comenzar")
-input()
 limpiar_pantalla()
 n = elec_tablero()
 FICHAS_O, FICHAS_X = Pos_ficha(n)
