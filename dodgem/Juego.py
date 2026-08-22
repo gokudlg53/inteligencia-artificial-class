@@ -29,10 +29,22 @@ def tableron_act():
         print(" ".join(fila))
     print()
 # revisa si un jugador ha ganado el juego
-def ganador(punto,jugador):
-    if punto == 3:
-        print(f"El jugador {jugador} ha ganado el juego!")
-        exit()
+def ganador(punto,jugador,punto1,punto2):
+            turno = jugador if jugador == 2 else 1
+            turno = 1 if turno == 2 else 2
+            win = punto if punto == 1 else 0
+            if turno == 1 and not win == 0:
+                punto1 += win
+                print(f"Jugador 1 ha ganado un punto. Puntos totales: {punto1}")
+            elif turno == 2 and not win == 0:
+                punto2 += win
+                print(f"Jugador 2 ha ganado un punto. Puntos totales: {punto2}")
+            elif punto1 == 3 or punto2 == 3:
+                print("Jugador", turno, "ha ganado el juego!")
+                exit()
+            elif win == 0:
+                print("es turno de el jugador", turno)
+            return punto1, punto2
 # realiza el movimiento del jugador y actualiza el turno
 def jugador(op, id_ficha,turno):
     #diccionario de fichas y movimientos
@@ -66,14 +78,14 @@ def jugador(op, id_ficha,turno):
     return(turno,puntaje)
 def JUEGO():
     turno = 1
+    win1, win2 = 3, 0
     while True:
-        print(f"Turno del jugador {turno}")
         print("Que ficha quieres mover 1,2 o 3?")
         id_ficha = input("Ingresa un numero: ")
         print("elige ficha izquierda(1), arriba(2) o derecha(3)")
         op = int(input("Ingresa un numero: "))
         turno, puntaje = jugador(op, id_ficha, turno)
         tableron_act()
-        ganador(puntaje, turno)
+        win1, win2 = ganador(puntaje, turno,win1,win2)
 tableron_act()
 JUEGO()
