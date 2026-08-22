@@ -99,7 +99,7 @@ def JUEGO():
 while True:
     try:
         n = int(input("Ingrese el tamano del tablero(ejemplo 4,6,8): "))
-        if n > 0 and n % 2 == 0 and n >= 4:
+        if n > 0 and n % 2 == 0 and n >= 4 and n <= 12:
             break
         print("Error: El número debe ser par y mayor a 0.")
     except ValueError:
