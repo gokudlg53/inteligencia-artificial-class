@@ -73,11 +73,7 @@ def jugador(op, id_ficha,turno,N):
         di, dj = movimientos[op]
         nueva_i, nueva_j = i + di, j + dj
         # muestra las restricciones de movimiento y actualiza la posición de la ficha si es válido
-        if turno == 1 and not (0 <= nueva_i <= N- 1):
-            del ficha[clave]
-            puntaje =1
-            turno = 1 if turno == 2 else 2
-        elif turno == 2 and not (0 <= nueva_j <= N-1):
+        if turno == 1 and not (0 <= nueva_i <= N- 1) or turno == 2 and not (0 <= nueva_i <= N-1):
             del ficha[clave]
             puntaje =1
             turno = 1 if turno == 2 else 2
