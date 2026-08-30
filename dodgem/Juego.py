@@ -1,8 +1,8 @@
-import os
+import os , time
 from rich.console import Console
 from InquirerPy import inquirer
 from InquirerPy.prompts.expand import ExpandChoice
-from InquirerPy.separator import Separator
+from rich.progress import track
 console = Console()
 # indica posiciones de las fichas
 n = 4
@@ -39,7 +39,6 @@ def tableron_act(N):
 def elec_tablero():
     console.print("[blue]Bienvenido al juego de DODGEM\r")
     console.print("[blue]El objetivo del juego es mover tus fichas hasta el otro lado del tablero\r")
-    console.print("[blue]precione enter para comenzar\r")
     input()
     limpiar_pantalla()
     while True:
@@ -50,6 +49,11 @@ def elec_tablero():
             console.print("[red]Error: El número debe ser par y mayor a 0 o menor que 10.\r")
         except ValueError:
             console.print("[red]Error: Ingrese un número entero válido.\r")
+        for i in track(range(100), description="Generando terreno..."):
+            time.sleep(0.03)
+        console.print("[blue]juego cargado\r")
+        time.sleep(0.5)
+        limpiar_pantalla()
 # revisa si un jugador ha ganado el juego
 def ganador(punto,jugador,punto1,punto2,n):
             # turno representa el jugador que ha ganado el punto, win representa si se ha ganado un punto
@@ -65,7 +69,7 @@ def ganador(punto,jugador,punto1,punto2,n):
             elif turno == 2 and not win == 0:
                 punto2 += win
             if punto1 == n or punto2 == n:
-                print("Jugador", turno, "ha ganado el juego!")
+                console.print("Jugador", turno, "ha ganado el juego!", style="bold green")
                 exit()
             return punto1, punto2
 def jugada(n):
