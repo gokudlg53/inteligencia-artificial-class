@@ -1,8 +1,8 @@
 import os
+from rich.console import Console
+console = Console()
 # indica posiciones de las fichas
 n = 4
-fi1 = "X"
-fi2 = "O"
 #como el nombre indica limpia el tablero
 def limpiar_pantalla():
     os.system("cls" if os.name == "nt" else "clear")
@@ -14,12 +14,11 @@ def Pos_ficha(N):
         FICHAS_X[f"X{i+1}"] = (N-1, i+1)
     return FICHAS_O, FICHAS_X
 # indica los movimientos posibles para cada jugador
-MOVIMIENTOS1 = {
+MOVIMIENTOS1, MOVIMIENTOS2 = {
     1: (0, -1),
     2: (-1, 0),
     3: (0, 1)
-}
-MOVIMIENTOS2 = {
+}, {
     1: (-1, 0),
     2: (0, 1),
     3: (1, 0)
@@ -28,7 +27,7 @@ MOVIMIENTOS2 = {
 def tableron_act(N):
     tablero = [["." for _ in range(N)] for _ in range(N)]
     for pos in FICHAS_O.values():
-        tablero[pos[0]][pos[1]] = "O"
+        tablero[pos[0]][pos[1]] = "O"   
     for pos in FICHAS_X.values():
         tablero[pos[0]][pos[1]] = "X"  
     print()
@@ -36,20 +35,19 @@ def tableron_act(N):
         print(" ".join(fila))
     print()
 def elec_tablero():
-    print("Bienvenido al juego de DODGEM")
-    print("El objetivo del juego es mover tus fichas hasta el otro lado del tablero")
-    print("presione enter para comenzar")
+    console.print("[red]Bienvenido al juego de DODGEM\r")
+    console.print("[red]El objetivo del juego es mover tus fichas hasta el otro lado del tablero\r")
+    console.print("[red]precione enter para comenzar\r")
     input()
     limpiar_pantalla()
     while True:
         try:
-            n = int(input("Ingrese el tamano del tablero(ejemplo 4,6,8): "))
+            n = int(console.input("[red]Ingrese el tamano del tablero\r""[underline blue](ejemplo 4,6,8):\r"))
             if n > 0 and n % 2 == 0 and n >= 4 and n <= 12:
                 return n
             print("Error: El número debe ser par y mayor a 0 o menor que 12.")
         except ValueError:
             print("Error: Ingrese un número entero válido.")
-    return n
 # revisa si un jugador ha ganado el juego
 def ganador(punto,jugador,punto1,punto2,n):
             # turno representa el jugador que ha ganado el punto, win representa si se ha ganado un punto
@@ -102,12 +100,12 @@ def JUEGO():
     while True:
         limpiar_pantalla()
         tableron_act(n)
-        print("es turno de el jugador", turno)
-        print("X:", win1, "O:", win2)
-        print("Que ficha quieres mover del 1 al", n-1, "?")
-        id_ficha = input("Ingresa un numero: ")
-        print("elige ficha izquierda(1), arriba(2) o derecha(3)")
-        op = int(input("Ingresa un numero: "))
+        console.print("es turno de el jugador", turno, style="bold green")
+        console.print("X:", win1, "O:", win2, style="bold blue")
+        console.print("Que ficha quieres mover del 1 al", n-1, "?", style="bold green")
+        id_ficha = console.input("[blue]Ingresa un numero: \r")
+        console.print("elige ficha izquierda(1), arriba(2) o derecha(3)", style="bold green")
+        op = int(console.input("[blue]Ingresa un numero: \r"))
         turno, puntaje = jugador(op, id_ficha, turno, n)
         tableron_act(n)
         win1, win2 = ganador(puntaje, turno,win1,win2,n)
