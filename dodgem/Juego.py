@@ -72,6 +72,7 @@ def ganador(punto,jugador,punto1,punto2,n):
                 console.print("Jugador", turno, "ha ganado el juego!", style="bold green")
                 exit()
             return punto1, punto2
+#esto es la accion del jugador
 def jugada(n):
     id_ficha = inquirer.expand(
         message="¿Qué ficha quieres mover?",
