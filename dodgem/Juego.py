@@ -47,7 +47,7 @@ def elec_tablero():
             if n > 0 and n % 2 == 0 and n >= 4 and n <= 10:
                 for i in track(range(100), description="Generando terreno..."):
                     time.sleep(0.03)
-                    console.print("[blue]juego cargado\r")
+                console.print("[blue]juego cargado\r")
                 time.sleep(0.5)
                 limpiar_pantalla()
                 return n
