@@ -1,5 +1,8 @@
 import os
 from rich.console import Console
+from InquirerPy import inquirer
+from InquirerPy.prompts.expand import ExpandChoice
+from InquirerPy.separator import Separator
 console = Console()
 # indica posiciones de las fichas
 n = 4
@@ -32,8 +35,7 @@ def tableron_act(N):
         tablero[pos[0]][pos[1]] = "X"  
     print()
     for fila in tablero:
-        print(" ".join(fila))
-    print()
+        console.print("[red]"+" ".join(fila)+"\r")
 def elec_tablero():
     console.print("[red]Bienvenido al juego de DODGEM\r")
     console.print("[red]El objetivo del juego es mover tus fichas hasta el otro lado del tablero\r")
@@ -66,6 +68,23 @@ def ganador(punto,jugador,punto1,punto2,n):
                 print("Jugador", turno, "ha ganado el juego!")
                 exit()
             return punto1, punto2
+def jugada(n):
+    id_ficha = inquirer.expand(
+        message="¿Qué ficha quieres mover?",
+        choices=[
+            ExpandChoice(key=str(i), name=f"Ficha {i}", value=i)
+            for i in range(1,n)
+        ],
+    ).execute()
+    op = inquirer.expand(
+        message="elige como moverte: izquierda(1), arriba(2) o derecha(3)",
+        choices=[
+            ExpandChoice(key="1",name="izquierda",value=1),
+            ExpandChoice(key="2",name="arriba",value=2),
+            ExpandChoice(key="3",name="derecha",value=3)
+        ],
+    ).execute()
+    return id_ficha,op
 # realiza el movimiento del jugador y actualiza el turno
 def jugador(op, id_ficha,turno,N):
     #diccionario de fichas y movimientos
@@ -102,10 +121,7 @@ def JUEGO():
         tableron_act(n)
         console.print("es turno de el jugador", turno, style="bold green")
         console.print("X:", win1, "O:", win2, style="bold blue")
-        console.print("Que ficha quieres mover del 1 al", n-1, "?", style="bold green")
-        id_ficha = console.input("[blue]Ingresa un numero: \r")
-        console.print("elige ficha izquierda(1), arriba(2) o derecha(3)", style="bold green")
-        op = int(console.input("[blue]Ingresa un numero: \r"))
+        id_ficha, op = jugada(n)
         turno, puntaje = jugador(op, id_ficha, turno, n)
         tableron_act(n)
         win1, win2 = ganador(puntaje, turno,win1,win2,n)
