@@ -35,21 +35,21 @@ def tableron_act(N):
         tablero[pos[0]][pos[1]] = "X"  
     print()
     for fila in tablero:
-        console.print("[red]"+" ".join(fila)+"\r")
+        console.print("[yellow]"+" ".join(fila)+"\r")
 def elec_tablero():
-    console.print("[red]Bienvenido al juego de DODGEM\r")
-    console.print("[red]El objetivo del juego es mover tus fichas hasta el otro lado del tablero\r")
-    console.print("[red]precione enter para comenzar\r")
+    console.print("[blue]Bienvenido al juego de DODGEM\r")
+    console.print("[blue]El objetivo del juego es mover tus fichas hasta el otro lado del tablero\r")
+    console.print("[blue]precione enter para comenzar\r")
     input()
     limpiar_pantalla()
     while True:
         try:
-            n = int(console.input("[red]Ingrese el tamano del tablero\r""[underline blue](ejemplo 4,6,8):\r"))
-            if n > 0 and n % 2 == 0 and n >= 4 and n <= 12:
+            n = int(console.input("[underline blue]Ingrese el tamano del tablero(ejemplo 4,6,8):\r"))
+            if n > 0 and n % 2 == 0 and n >= 4 and n <= 10:
                 return n
-            print("Error: El número debe ser par y mayor a 0 o menor que 12.")
+            console.print("[red]Error: El número debe ser par y mayor a 0 o menor que 10.\r")
         except ValueError:
-            print("Error: Ingrese un número entero válido.")
+            console.print("[red]Error: Ingrese un número entero válido.\r")
 # revisa si un jugador ha ganado el juego
 def ganador(punto,jugador,punto1,punto2,n):
             # turno representa el jugador que ha ganado el punto, win representa si se ha ganado un punto
@@ -105,8 +105,8 @@ def jugador(op, id_ficha,turno,N):
             turno = 1 if turno == 2 else 2
             #restricciones de movimientos en caso de no haber movimiento valido
         elif turno == 1 and not (0 <= nueva_j <= N-1) or turno == 2 and not (0 <= nueva_i <= N-1) or (nueva_i, nueva_j) in FICHAS_X.values() or (nueva_i, nueva_j) in FICHAS_O.values():
-            print("Movimiento inválido")
-            input("Presiona Enter para continuar...")
+            console.print("[red]Movimiento inválido\r")
+            console.input("[green]Presiona Enter para continuar...\r")
         else:
             ficha[clave] = (nueva_i, nueva_j)
             turno = 1 if turno == 2 else 2
