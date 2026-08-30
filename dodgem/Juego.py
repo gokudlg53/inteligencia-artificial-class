@@ -124,7 +124,7 @@ def jugador(op, id_ficha,turno,N):
 def JUEGO():
     #valores iniciales de turno y puntajes
     turno = 1
-    win1, win2 = 3, 0
+    win1, win2 = 0, 0
     while True:
         limpiar_pantalla()
         tableron_act(n)
