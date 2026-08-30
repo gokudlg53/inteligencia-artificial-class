@@ -48,8 +48,8 @@ def elec_tablero():
                 for i in track(range(100), description="Generando terreno..."):
                     time.sleep(0.03)
                     console.print("[blue]juego cargado\r")
-                    time.sleep(0.5)
-                    limpiar_pantalla()
+                time.sleep(0.5)
+                limpiar_pantalla()
                 return n
             console.print("[red]Error: El número debe ser par y mayor a 0 o menor que 10.\r")
         except ValueError:
