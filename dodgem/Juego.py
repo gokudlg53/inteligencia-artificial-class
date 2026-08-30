@@ -46,7 +46,7 @@ def elec_tablero():
         try:
             n = int(console.input("[underline blue]Ingrese el tamano del tablero(ejemplo 4,6,8):"))
             if n > 0 and n % 2 == 0 and n >= 4 and n <= 10:
-                for i in track(range(100), description="Generando terreno..."):
+                for i in track(range(100), description="Generando tablero..."):
                     time.sleep(0.03)
                 console.print("[blue]juego cargado")
                 time.sleep(0.5)
