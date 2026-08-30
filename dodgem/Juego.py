@@ -74,6 +74,7 @@ def ganador(punto,jugador,punto1,punto2,n):
                     text = Align.center(f"[black]Jugador {turno} ha ganado el juego![/black]", vertical="middle")
                     screen.update(Panel(text))
                     time.sleep(5)
+                limpiar_pantalla()
                 exit()
             return punto1, punto2
 def jugada(n):
@@ -123,7 +124,7 @@ def jugador(op, id_ficha,turno,N):
 def JUEGO():
     #valores iniciales de turno y puntajes
     turno = 1
-    win1, win2 = 0, 0
+    win1, win2 = 3, 0
     while True:
         limpiar_pantalla()
         tableron_act(n)
