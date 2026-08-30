@@ -45,15 +45,15 @@ def elec_tablero():
         try:
             n = int(console.input("[underline blue]Ingrese el tamano del tablero(ejemplo 4,6,8):\r"))
             if n > 0 and n % 2 == 0 and n >= 4 and n <= 10:
+                for i in track(range(100), description="Generando terreno..."):
+                    time.sleep(0.03)
+                    console.print("[blue]juego cargado\r")
+                    time.sleep(0.5)
+                    limpiar_pantalla()
                 return n
             console.print("[red]Error: El número debe ser par y mayor a 0 o menor que 10.\r")
         except ValueError:
             console.print("[red]Error: Ingrese un número entero válido.\r")
-        for i in track(range(100), description="Generando terreno..."):
-            time.sleep(0.03)
-        console.print("[blue]juego cargado\r")
-        time.sleep(0.5)
-        limpiar_pantalla()
 # revisa si un jugador ha ganado el juego
 def ganador(punto,jugador,punto1,punto2,n):
             # turno representa el jugador que ha ganado el punto, win representa si se ha ganado un punto
@@ -72,7 +72,6 @@ def ganador(punto,jugador,punto1,punto2,n):
                 console.print("Jugador", turno, "ha ganado el juego!", style="bold green")
                 exit()
             return punto1, punto2
-#esto es la accion del jugador
 def jugada(n):
     id_ficha = inquirer.expand(
         message="¿Qué ficha quieres mover?",
