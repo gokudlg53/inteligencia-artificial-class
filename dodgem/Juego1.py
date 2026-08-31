@@ -120,35 +120,31 @@ def jugador(op, id_ficha,turno,N):
             ficha[clave] = (nueva_i, nueva_j)
             turno = 1 if turno == 2 else 2
     return(turno,puntaje)
-
-# guarda la posicion de las fichas y el jugador en turno /R
+# guarda la posicion de las fichas y el jugador en turno
 def obtener_estado(turno):
     posiciones_x = tuple(sorted(FICHAS_X.values()))
     posiciones_o = tuple(sorted(FICHAS_O.values()))
     return posiciones_x, posiciones_o, turno
-
 # inicia el juego y controla el flujo del mismo
 def JUEGO():
     #valores iniciales de turno y puntajes
     turno = 1
     win1, win2 = 0, 0
-    historial = {obtener_estado(turno):1} # guarda cuantas veces aparece cada estado del juego/R
-   
+    historial = {obtener_estado(turno):1} # guarda cuantas veces aparece cada estado del juego
     while True:
         limpiar_pantalla()
         tableron_act(n)
         console.print("es turno de el jugador", turno, style="bold green")
         console.print("[red]X:", win1, "[blue]O:", win2)
         id_ficha, op = jugada(n)
-        turno_anterior = turno # guarda el turno actual para saber si la jugada fue valida    /R
+        turno_anterior = turno # guarda el turno actual para saber si la jugada fue valida
         turno, puntaje = jugador(op, id_ficha, turno, n)
         tableron_act(n)
         win1, win2 = ganador(puntaje, turno,win1,win2,n)
-        if turno != turno_anterior: # solo se registra el estado si el turno cambio, es decir, si hubo una jugada valida/R
+        if turno != turno_anterior: # solo se registra el estado si el turno cambio, es decir, si hubo una jugada valida
             estado = obtener_estado(turno)
-            historial[estado] = historial.get(estado, 0) + 1  # aumenta en 1 la cantidad de veces que aparece este mismo estado/R
-
-            if historial[estado] >= 3:  # si el mismo tablero con el mismo turno aparece 3 veces, la partida termina en empate/R
+            historial[estado] = historial.get(estado, 0) + 1  # aumenta en 1 la cantidad de veces que aparece este mismo estado
+            if historial[estado] >= 3:  # si el mismo tablero con el mismo turno aparece 3 veces, la partida termina en empate
                 console.print("[bold yellow]Empate por repeticion de jugadas.[/bold yellow]" )
                 return
 limpiar_pantalla()
