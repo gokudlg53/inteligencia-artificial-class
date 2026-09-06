@@ -140,17 +140,13 @@ def movimientosValidos(fichas_propias, fichas_rivales, movimientos, N, es_x):
         for op, (di, dj) in movimientos.items():
             nueva_i, nueva_j = i + di, j + dj
             
-            # TODO 1: ¿esta jugada hace que la ficha salga por su lado de meta?
-            # (recuerda: si es_x es True, se fija en nueva_i; si es False, se fija en nueva_j)
+           # si es_x es True, se fija en nueva_i; si es False, se fija en nueva_j
             if es_x and not (0 <= nueva_i <= N-1) or not es_x and not (0 <= nueva_j <= N-1):
                 disponibles.append((clave, op, "gana", None))
             
-            # TODO 2: ¿esta jugada es inválida? (se sale por el lado equivocado, 
-            # o choca con una ficha rival, o choca con una ficha propia)
             elif es_x and not (0 <= nueva_j <= N-1) or not es_x and not (0 <= nueva_i <= N-1) or (nueva_i, nueva_j) in fichas_propias.values() or (nueva_i, nueva_j) in fichas_rivales.values():
-                continue   # esta ya está lista, no la toques: descarta la jugada
+                continue   
             
-            # TODO 3: si no fue ninguna de las anteriores, es un movimiento normal
             else:
                 disponibles.append((clave, op, "normal", (nueva_i, nueva_j)))
     return disponibles
@@ -168,20 +164,19 @@ def alfaBeta(fichas_x, fichas_o, punto1, punto2, leTocaAlaIA, profundidad, N, al
     if leTocaAlaIA:
         mejorPuntaje = -inf
         for clave, op, tipo, nueva_pos in movimientosValidos(fichas_o, fichas_x, MOVIMIENTOS2, N, es_x=False):
-            nuevas_o = dict(fichas_o)                              # 1. probar (con copia, no con deshacer)
+            nuevas_o = dict(fichas_o)                            
             nuevo_punto2 = punto2
             if tipo == "gana":
                 del nuevas_o[clave]
                 nuevo_punto2 += 1
             else:
                 nuevas_o[clave] = nueva_pos
-            puntaje = alfaBeta(fichas_x, nuevas_o, punto1, nuevo_punto2, False, profundidad - 1, N, alfa, beta)  # 2. recursión
-            # (no hay paso "3. deshacer" — como usamos copias, el original ni se tocó)
+            puntaje = alfaBeta(fichas_x, nuevas_o, punto1, nuevo_punto2, False, profundidad - 1, N, alfa, beta)  
             mejorPuntaje = max(puntaje, mejorPuntaje)
             alfa = max(alfa, mejorPuntaje)
             if alfa >= beta:
                 break
-    else:
+    else: 
         mejorPuntaje = inf
         for clave, op, tipo, nueva_pos in movimientosValidos(fichas_x, fichas_o, MOVIMIENTOS1, N, es_x=True):
             nuevas_x = dict(fichas_x)
