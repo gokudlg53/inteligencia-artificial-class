@@ -6,12 +6,15 @@ from InquirerPy.prompts.expand import ExpandChoice
 from rich.progress import track
 from rich.align import Align
 from rich.panel import Panel
+
 cont = 0
 PROFUNDIDAD_IA = 3
 console = Console()
+
 #como el nombre indica limpia el tablero
 def limpiar_pantalla():
     os.system("cls" if os.name == "nt" else "clear")
+
 def Pos_ficha(N):
     FICHAS_O = {}
     FICHAS_X = {}
@@ -19,6 +22,7 @@ def Pos_ficha(N):
         FICHAS_O[f"O{i+1}"] = (i, 0)
         FICHAS_X[f"X{i+1}"] = (N-1, i+1)
     return FICHAS_O, FICHAS_X
+
 # indica los movimientos posibles para cada jugador
 MOVIMIENTOS1, MOVIMIENTOS2 = {
     1: (0, -1),
@@ -29,6 +33,7 @@ MOVIMIENTOS1, MOVIMIENTOS2 = {
     2: (0, 1),
     3: (1, 0)
 }
+
 # muestra el tablero actualizado
 def tableron_act(N):
     tablero = [["." for _ in range(N)] for _ in range(N)]
@@ -40,6 +45,7 @@ def tableron_act(N):
     for fila in tablero:
         contenido = " ".join(fila)
         console.print(f"[yellow]{contenido}[/yellow]")
+
 def elec_tablero():
     console.print("[blue]Bienvenido al juego de DODGEM")
     console.print("[blue]El objetivo del juego es mover tus fichas hasta el otro lado del tablero")
@@ -58,6 +64,7 @@ def elec_tablero():
             console.print("[red]Error: El número debe ser par y mayor a 0 o menor que 10.")
         except ValueError:
             console.print("[red]Error: Ingrese un número entero válido.")
+
 # revisa si un jugador ha ganado el juego
 def ganador(punto,jugador,punto1,punto2,n):
             # turno representa el jugador que ha ganado el punto, win representa si se ha ganado un punto
@@ -80,6 +87,7 @@ def ganador(punto,jugador,punto1,punto2,n):
                 limpiar_pantalla()
                 exit()
             return punto1, punto2
+
 def jugada(n):
     vivas = sorted(int(clave[1:]) for clave in FICHAS_X.keys())
     id_ficha = inquirer.expand(
@@ -98,6 +106,7 @@ def jugada(n):
         ],
     ).execute()
     return id_ficha,op
+
 # realiza el movimiento del jugador y actualiza el turno
 def jugador(op, id_ficha,turno,N):
     #diccionario de fichas y movimientos
@@ -124,6 +133,7 @@ def jugador(op, id_ficha,turno,N):
             ficha[clave] = (nueva_i, nueva_j)
             turno = 1 if turno == 2 else 2
     return(turno,puntaje)
+
 # guarda la posicion de las fichas y el jugador en turno
 def buscaGanador(punto1,punto2,N):
     n_piezas = N-1
@@ -134,6 +144,7 @@ def buscaGanador(punto1,punto2,N):
         return "Humano"
     else:
         return None
+
 def movimientosValidos(fichas_propias, fichas_rivales, movimientos, N, es_x):
     disponibles = []
     for clave, (i, j) in fichas_propias.items():
@@ -150,6 +161,7 @@ def movimientosValidos(fichas_propias, fichas_rivales, movimientos, N, es_x):
             else:
                 disponibles.append((clave, op, "normal", (nueva_i, nueva_j)))
     return disponibles
+
 def alfaBeta(fichas_x, fichas_o, punto1, punto2, leTocaAlaIA, profundidad, N, alfa, beta):
     global cont
     cont += 1
@@ -192,6 +204,7 @@ def alfaBeta(fichas_x, fichas_o, punto1, punto2, leTocaAlaIA, profundidad, N, al
             if alfa >= beta:
                 break
     return mejorPuntaje
+
 def mejorMovimiento(n, punto1, punto2):
     mejorPuntaje = -inf
     movimiento = None
@@ -209,6 +222,7 @@ def mejorMovimiento(n, punto1, punto2):
             mejorPuntaje = puntaje
             movimiento = (int(clave[1:]), op)
     return movimiento
+
 def jugada_ia(n, punto1, punto2):
     global cont
     movimiento = mejorMovimiento(n, punto1, punto2)
@@ -217,16 +231,19 @@ def jugada_ia(n, punto1, punto2):
     if movimiento is None:
         return None, None
     return movimiento
+
 def evaluarTablero(fichas_o, fichas_x, punto1, punto2, N):
     avance_o = sum(j for (_, j) in fichas_o.values())
     avance_x = sum((N - 1 - i) for (i, _) in fichas_x.values())
     diferencia_puntos = (punto2 - punto1) * 2
     bruto = diferencia_puntos + (avance_o - avance_x) * 0.1
     return bruto / (abs(bruto) + 10)
+
 def obtener_estado(turno):
     posiciones_x = tuple(sorted(FICHAS_X.values()))
     posiciones_o = tuple(sorted(FICHAS_O.values()))
     return posiciones_x, posiciones_o, turno
+
 # inicia el juego y controla el flujo del mismo
 def JUEGO():
     #valores iniciales de turno y puntajes
